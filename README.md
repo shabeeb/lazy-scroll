@@ -21,4 +21,4 @@ Step 4:
             lazy-scroll-trigger="80"
            &gt;
 
-Thats it . For more details check demo and API documentation here  lazy-scroll
+Thats it . For more details check demo and API documentation here  in <a href="http://shabeebk.com/blog/lazy-scroll-infinite-scrolling-angularjs-plugin/"> my blog | lazy-scroll</a>
