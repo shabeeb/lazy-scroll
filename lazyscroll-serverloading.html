@@ -1,0 +1,155 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="lazyloading- infinate scroll plugin for angularjs">
+    <meta name="author" content="shabeeb">
+
+    <title>lazyscroll</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<style type="text/css">
+
+.testDiv div{
+    margin-top:10px;
+    padding: 100px;
+    outline: 2px solid #ccc;
+    outline-offset: -10px;
+    -moz-outline-radius: 10px;
+    -webkit-outline-radius: 10px;
+    height: 200px;
+    text-align: center;
+ }
+</style>
+
+</head>
+
+
+<body ng-app="testModule">
+
+  
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Lazy scroll
+                    <small>loading data from server</small>
+                </h1>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <!-- Projects Row -->
+        <div class="row testDiv"  
+            ng-controller="testController" 
+            lazy-scroll="listData()" 
+            lazy-scroll-trigger="80"
+            lazy-no-scroll="false"
+        >
+            <div class="col-md-6 portfolio-item" ng-repeat="data in testData" >
+              {{data.id}}
+            </div>
+           
+            <div class="col-md-10 portfolio-item" ng-click="listData()">
+               <!--Load More ...-->
+
+                {{loadmore}}
+            </div> 
+        </div>
+        <!-- /.row -->
+
+        
+
+        <hr>
+
+       
+
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <!--<script src="js/angular.min.js"></script>-->
+    <script src="js/lazy-scroll.min.js"></script>
+<script type="text/javascript">
+
+var app = angular.module("testModule",['lazy-scroll']);
+app.controller('testController', function($scope,$http) {
+
+   var reachedLast = false;
+     $scope.testData = [];
+    $scope.loadmore = "Loading more data...";
+
+    NextpageNumber = 0;//next page is made it zeero on starting
+     $scope.listData = function() {
+         if(reachedLast)
+             return false;
+
+
+         $scope.url = 'lazyscroll-serverdata.php?page=' + NextpageNumber;
+         $http.post($scope.url, {"data": $scope.keywords}).success(function(data, status) {
+
+             $scope.status = status;
+             $scope.data = data;
+             var currentpage = NextpageNumber;//taking current pagenumber
+             var lastpage = data.lastpage; //setting last page number
+             NextpageNumber = data.nextpage;
+
+             if((currentpage == NextpageNumber) ){
+                 return false;
+             }
+
+             if((currentpage == lastpage)){
+                 //reached at the bottom
+                 reachedLast = true;
+                 $scope.loadmore = "Reached at bottom";
+//                 $scope.$apply();
+
+             }
+
+             $scope.testData = $scope.testData.concat(data.result);
+//             if ($scope.testData != undefined) {
+//                 $scope.testData = $scope.testData.concat(data.result);
+//             }else {
+//                 $scope.testData =data.result;
+//             }
+
+         }).error(function(data, status) {
+             $scope.data = data || "Request failed";
+             $scope.status = status;
+         });
+
+
+            };
+                 $scope.listData();// loading initial content
+                     
+    });
+
+
+
+
+
+
+
+</script>
+</body>
+
+</html>

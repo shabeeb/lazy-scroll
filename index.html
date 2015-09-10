@@ -1,0 +1,140 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="lazyloading- infinate scroll plugin for angularjs">
+    <meta name="author" content="shabeeb">
+
+    <title>ng-lzyscroll</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<style type="text/css">
+
+.testDiv div{
+    margin-top:10px;
+    padding: 100px;
+    outline: 2px solid #ccc;
+    outline-offset: -10px;
+    -moz-outline-radius: 10px;
+    -webkit-outline-radius: 10px;
+    height: 200px;
+    text-align: center;
+ }
+</style>
+
+</head>
+
+
+<body ng-app="testModule">
+
+  
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Lazy scroll
+                    <small>infintate scroll angular plugin</small>
+                </h1>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <!-- Projects Row -->
+        <div class="row testDiv"  
+            ng-controller="testController" 
+            lazy-scroll="listData()" 
+            lazy-scroll-trigger="40"
+            lazy-no-scroll="false"
+        >
+            <div class="col-md-6 portfolio-item" ng-repeat="data in testData" >
+              {{data.id}}
+            </div>
+           
+            <div class="col-md-10 portfolio-item" ng-click="listData()">
+                {{loadmore}}
+            </div> 
+        </div>
+        <!-- /.row -->
+
+        
+
+        <hr>
+
+       
+
+
+    </div>
+    <!-- /.container -->
+
+    <!-- angularjs loading -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <!--<script src="js/angular.min.js"></script>-->
+    <!-- lazy-scroll loading -->
+     <script src="js/lazy-scroll.min.js"></script>
+<script type="text/javascript">
+
+var app = angular.module("testModule",['lazy-scroll']);
+app.controller('testController', function($scope) {
+    var start = 0;
+    var ending = start+5;
+    var lastdata = 100;
+    var reachLast = false;
+
+    $scope.loadmore = "Loading More data..";
+     $scope.testData = [];
+
+
+     $scope.listData = function() {
+         if(reachLast){
+             return false;
+         }
+        var jsondt = [];
+            for (var i = start; i < ending; i++) {
+                jsondt.push({
+                                id: i, name: "name"+i
+                          });
+                };
+                start = i;
+                ending = i+10;
+    
+             $scope.testData =$scope.testData.concat(jsondt);
+
+
+                     if(ending >= lastdata) {
+                         reachLast = true;
+                         $scope.loadmore = "Reached at bottom";
+                     }
+            };
+
+
+                 $scope.listData();
+                     
+    });
+
+
+
+
+
+
+
+</script>
+</body>
+
+</html>
