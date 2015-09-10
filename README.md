@@ -20,9 +20,6 @@ Step 3:
 
 Use the directive by specifying an lazy-scroll attribute on an element.
 <pre class="lang:default decode:true ">&lt;div lazy-scroll="paginationFuntion()" lazy-scroll-trigger="80" &gt;</pre>
-That is it ! it will work like a magic
-<h1>What is next?</h1>
-&nbsp;
 
 
 Thats it . For more details check demo and API documentation here  in <a href="http://shabeebk.com/blog/lazy-scroll-infinite-scrolling-angularjs-plugin/"> my blog | lazy-scroll</a>
