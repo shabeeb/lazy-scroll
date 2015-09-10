@@ -12,6 +12,7 @@ Add script in  &lt;script src="path-to-script/lazy-scroll.min.js"&gt;&lt;/script
 
 Step 3:
 Ensure that your application module specifies lazy-scroll as a dependency.
+ var app = angular.module("yourModule",['lazy-scroll']);
 
 Step 4:
  Use the directive by specifying an lazy-scroll attribute on an element.
